@@ -136,7 +136,7 @@ module.exports = HandleMsg = async (client, message) => {
         // Menu and TnC
         case 'speed':
         case 'ping':
-            await client.sendText(from, `Pong!!!!\nTempo de resposta: ${processTime(t, moment())} _Second_`)
+            await client.sendText(from, `Pong!!!!\nTempo de resposta: ${processTime(t, moment())} _segundos_`)
             break
 
         
@@ -208,6 +208,7 @@ module.exports = HandleMsg = async (client, message) => {
         }
 
         // Sticker Creator
+        /*
 	case 'coolteks':
 	case 'cooltext':
             if (args.length == 0) return aruga.reply(from, `Para fazer CoolText texto legal em imagens, use ${prefix}cooltext texto\n\nExemplo: ${prefix}cooltext texto de exemplo`, id)
@@ -216,7 +217,7 @@ module.exports = HandleMsg = async (client, message) => {
 		await aruga.sendFileFromUrl(from, `${res.link}`, '', `${res.text}`, id)
 		})
     break
-        
+        */
         case 'sticker':
         case 'stiker':
             if ((isMedia || isQuotedImage) && args.length === 0) {
@@ -226,7 +227,7 @@ module.exports = HandleMsg = async (client, message) => {
                 const imageBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
                 client.sendImageAsSticker(from, imageBase64)
                 .then(() => {
-                    client.reply(from, 'Aqui está seu sticker 🥰')
+                    client.reply(from, 'Aqui está seu sticker 😻')
                     console.log(`Adesivo processado em ${processTime(t, moment())} segundos`)
                 })
                 .catch(() => {
@@ -252,7 +253,7 @@ module.exports = HandleMsg = async (client, message) => {
                 if (!isUrl(url)) { await client.reply(from, 'Desculpe, o link que você enviou é inválido.', id) }
                 client.sendStickerfromUrl(from, url).then((r) => (!r && r !== undefined)
                     ? client.sendText(from, 'Desculpe, o link que você enviou não contém uma imagem.')
-                    : client.reply(from, 'Aqui está seu sticker 🥰')).then(() => console.log(`Adesivo processado em ${processTime(t, moment())} Second`))
+                    : client.reply(from, 'Aqui está seu sticker 😻')).then(() => console.log(`Adesivo processado em ${processTime(t, moment())} Second`))
             } else {
                 await client.reply(from, `Sem imagens! Usar ${prefix}sticker\n\n\nEnvie fotos com legendas\n${prefix}sticker <normal>\n${prefix}sticker nobg <sem fundo>\n\nOu enviar mensagem com\n${prefix}sticker <link da imagem>`, id)
             }
@@ -283,7 +284,7 @@ module.exports = HandleMsg = async (client, message) => {
 
         case 'stikergiphy':
         case 'stickergiphy':
-            if (args.length !== 1) return client.reply(from, `Desculpe, o formato da mensagem está errado.\nDigite a mensagem com ${prefix}stickergiphy <link do Giphy>`, id)
+            if (args.length !== 1) return client.reply(from, `Desculpe, o formato da mensagem está errado.\nDigite a mensagem com ${prefix}stickergiphy <link do Giphy>\nProcure por gifs em: https://giphy.com`, id)
             const isGiphy = url.match(new RegExp(/https?:\/\/(www\.)?giphy.com/, 'gi'))
             const isMediaGiphy = url.match(new RegExp(/https?:\/\/media.giphy.com\/media/, 'gi'))
             if (isGiphy) {
@@ -292,7 +293,7 @@ module.exports = HandleMsg = async (client, message) => {
                 const giphyCode = getGiphyCode[0].replace(/[-\/]/gi, '')
                 const smallGifUrl = 'https://media.giphy.com/media/' + giphyCode + '/giphy-downsized.gif'
                 client.sendGiphyAsSticker(from, smallGifUrl).then(() => {
-                    client.reply(from, 'Aqui está seu sticker 🥰')
+                    client.reply(from, 'Aqui está seu sticker 😻')
                     console.log(`Adesivo processado em ${processTime(t, moment())} Second`)
                 }).catch((err) => console.log(err))
             } else if (isMediaGiphy) {
@@ -301,14 +302,14 @@ module.exports = HandleMsg = async (client, message) => {
                 const smallGifUrl = url.replace(gifUrl[0], 'giphy-downsized.gif')
                 client.sendGiphyAsSticker(from, smallGifUrl)
                 .then(() => {
-                    client.reply(from, 'Aqui está seu sticker 🥰')
+                    client.reply(from, 'Aqui está seu sticker 😻')
                     console.log(`Adesivo processado em ${processTime(t, moment())} Second`)
                 })
                 .catch(() => {
                     client.reply(from, `Há um erro!`, id)
                 })
             } else {
-                await client.reply(from, 'Desculpe, o adesivo do comando Giphy só pode usar o link do Giphy.  [Giphy Only]', id)
+                await client.reply(from, 'Desculpe, o adesivo do comando Giphy só pode usar o link do Giphy\nProcure por gifs em: https://giphy.com [Giphy Only]', id)
             }
             break
 
@@ -358,158 +359,26 @@ module.exports = HandleMsg = async (client, message) => {
             .catch(() => {
                 client.reply(from, 'Há um erro!', id)
             })
-            break
+        break
 
-        //Islam Command
-        /*
-        case 'listsurah':
-            try {
-                axios.get('https://raw.githubusercontent.com/clientZ/grabbed-results/main/islam/surah.json')
-                .then((response) => {
-                    let hehex = '╔══✪〘 List Surah 〙✪══\n'
-                    for (let i = 0; i < response.data.data.length; i++) {
-                        hehex += '╠➥ '
-                        hehex += response.data.data[i].name.transliteration.id.toLowerCase() + '\n'
-                            }
-                        hehex += '╚═〘 *BOTIZINHO* 〙'
-                    client.reply(from, hehex, id)
-                })
-            } catch(err) {
-                client.reply(from, err, id)
-            }
-            break
-        case 'infosurah':
-            if (args.length == 0) return client.reply(from, `*_${prefix}infosurah <nama surah>_*\nMenampilkan informasi lengkap mengenai surah tertentu. Contoh penggunan: ${prefix}infosurah al-baqarah`, message.id)
-                var responseh = await axios.get('https://raw.githubusercontent.com/clientZ/grabbed-results/main/islam/surah.json')
-                var { data } = responseh.data
-                var idx = data.findIndex(function(post, index) {
-                  if((post.name.transliteration.id.toLowerCase() == args[0].toLowerCase())||(post.name.transliteration.en.toLowerCase() == args[0].toLowerCase()))
-                    return true;
-                });
-                var pesan = ""
-                pesan = pesan + "Nama : "+ data[idx].name.transliteration.id + "\n" + "Asma : " +data[idx].name.short+"\n"+"Arti : "+data[idx].name.translation.id+"\n"+"Jumlah ayat : "+data[idx].numberOfVerses+"\n"+"Nomor surah : "+data[idx].number+"\n"+"Jenis : "+data[idx].revelation.id+"\n"+"Keterangan : "+data[idx].tafsir.id
-                client.reply(from, pesan, message.id)
-              break
-        case 'surah':
-            if (args.length == 0) return client.reply(from, `*_${prefix}surah <nama surah> <ayat>_*\nMenampilkan ayat Al-Quran tertentu beserta terjemahannya dalam bahasa Indonesia. Contoh Usar: : ${prefix}surah al-baqarah 1\n\n*_${prefix}surah <nama surah> <ayat> en/id_*\nMenampilkan ayat Al-Quran tertentu beserta terjemahannya dalam bahasa Inggris / Indonesia. Contoh Usar: : ${prefix}surah al-baqarah 1 id`, message.id)
-                var responseh = await axios.get('https://raw.githubusercontent.com/clientZ/grabbed-results/main/islam/surah.json')
-                var { data } = responseh.data
-                var idx = data.findIndex(function(post, index) {
-                  if((post.name.transliteration.id.toLowerCase() == args[0].toLowerCase())||(post.name.transliteration.en.toLowerCase() == args[0].toLowerCase()))
-                    return true;
-                });
-                nmr = data[idx].number
-                if(!isNaN(nmr)) {
-                  var responseh2 = await axios.get('https://api.quran.sutanlab.id/surah/'+nmr+"/"+args[1])
-                  var {data} = responseh2.data
-                  var last = function last(array, n) {
-                    if (array == null) return void 0;
-                    if (n == null) return array[array.length - 1];
-                    return array.slice(Math.max(array.length - n, 0));
-                  };
-                  bhs = last(args)
-                  pesan = ""
-                  pesan = pesan + data.text.arab + "\n\n"
-                  if(bhs == "en") {
-                    pesan = pesan + data.translation.en
-                  } else {
-                    pesan = pesan + data.translation.id
-                  }
-                  pesan = pesan + "\n\n(Q.S. "+data.surah.name.transliteration.id+":"+args[1]+")"
-                  client.reply(from, pesan, message.id)
-                }
-              break
-        case 'tafsir':
-            if (args.length == 0) return client.reply(from, `*_${prefix}tafsir <nama surah> <ayat>_*\nMenampilkan ayat Al-Quran tertentu beserta terjemahan dan tafsirnya dalam bahasa Indonesia. Contoh Usar: : ${prefix}tafsir al-baqarah 1`, message.id)
-                var responsh = await axios.get('https://raw.githubusercontent.com/clientZ/grabbed-results/main/islam/surah.json')
-                var {data} = responsh.data
-                var idx = data.findIndex(function(post, index) {
-                  if((post.name.transliteration.id.toLowerCase() == args[0].toLowerCase())||(post.name.transliteration.en.toLowerCase() == args[0].toLowerCase()))
-                    return true;
-                });
-                nmr = data[idx].number
-                if(!isNaN(nmr)) {
-                  var responsih = await axios.get('https://api.quran.sutanlab.id/surah/'+nmr+"/"+args[1])
-                  var {data} = responsih.data
-                  pesan = ""
-                  pesan = pesan + "Tafsir Q.S. "+data.surah.name.transliteration.id+":"+args[1]+"\n\n"
-                  pesan = pesan + data.text.arab + "\n\n"
-                  pesan = pesan + "_" + data.translation.id + "_" + "\n\n" +data.tafsir.id.long
-                  client.reply(from, pesan, message.id)
-              }
-              break
-        case 'alaudio':
-            if (args.length == 0) return client.reply(from, `*_${prefix}ALaudio <nama surah>_*\nMenampilkan tautan dari audio surah tertentu. Contoh Usar: : ${prefix}ALaudio al-fatihah\n\n*_${prefix}ALaudio <nama surah> <ayat>_*\nMengirim audio surah dan ayat tertentu beserta terjemahannya dalam bahasa Indonesia. Contoh Usar: : ${prefix}ALaudio al-fatihah 1\n\n*_${prefix}ALaudio <nama surah> <ayat> en_*\nMengirim audio surah dan ayat tertentu beserta terjemahannya dalam bahasa Inggris. Contoh Usar: : ${prefix}ALaudio al-fatihah 1 en`, message.id)
-              ayat = "ayat"
-              bhs = ""
-                var responseh = await axios.get('https://raw.githubusercontent.com/clientZ/grabbed-results/main/islam/surah.json')
-                var surah = responseh.data
-                var idx = surah.data.findIndex(function(post, index) {
-                  if((post.name.transliteration.id.toLowerCase() == args[0].toLowerCase())||(post.name.transliteration.en.toLowerCase() == args[0].toLowerCase()))
-                    return true;
-                });
-                nmr = surah.data[idx].number
-                if(!isNaN(nmr)) {
-                  if(args.length > 2) {
-                    ayat = args[1]
-                  }
-                  if (args.length == 2) {
-                    var last = function last(array, n) {
-                      if (array == null) return void 0;
-                      if (n == null) return array[array.length - 1];
-                      return array.slice(Math.max(array.length - n, 0));
-                    };
-                    ayat = last(args)
-                  } 
-                  pesan = ""
-                  if(isNaN(ayat)) {
-                    var responsih2 = await axios.get('https://raw.githubusercontent.com/clientZ/grabbed-results/main/islam/surah/'+nmr+'.json')
-                    var {name, name_translations, number_of_ayah, number_of_surah,  recitations} = responsih2.data
-                    pesan = pesan + "Audio Quran Surah ke-"+number_of_surah+" "+name+" ("+name_translations.ar+") "+ "dengan jumlah "+ number_of_ayah+" ayat\n"
-                    pesan = pesan + "Dilantunkan oleh "+recitations[0].name+" : "+recitations[0].audio_url+"\n"
-                    pesan = pesan + "Dilantunkan oleh "+recitations[1].name+" : "+recitations[1].audio_url+"\n"
-                    pesan = pesan + "Dilantunkan oleh "+recitations[2].name+" : "+recitations[2].audio_url+"\n"
-                    client.reply(from, pesan, message.id)
-                  } else {
-                    var responsih2 = await axios.get('https://api.quran.sutanlab.id/surah/'+nmr+"/"+ayat)
-                    var {data} = responsih2.data
-                    var last = function last(array, n) {
-                      if (array == null) return void 0;
-                      if (n == null) return array[array.length - 1];
-                      return array.slice(Math.max(array.length - n, 0));
-                    };
-                    bhs = last(args)
-                    pesan = ""
-                    pesan = pesan + data.text.arab + "\n\n"
-                    if(bhs == "en") {
-                      pesan = pesan + data.translation.en
-                    } else {
-                      pesan = pesan + data.translation.id
-                    }
-                    pesan = pesan + "\n\n(Q.S. "+data.surah.name.transliteration.id+":"+args[1]+")"
-                    await client.sendFileFromUrl(from, data.audio.secondary[0])
-                    await client.reply(from, pesan, message.id)
-                  }
-              }
-              break
-        case 'jsolat':
-            if (args.length == 0) return client.reply(from, `Untuk melihat jadwal solat dari setiap daerah yang ada\nUso: ${prefix}jsolat [daerah]\n\nuntuk list daerah yang ada\nUso: ${prefix}daerah`, id)
-            const solatx = body.slice(8)
-            const solatj = await rugaapi.jadwaldaerah(solatx)
-            await client.reply(from, solatj, id)
-            .catch(() => {
-                client.reply(from, 'Pastikan daerah kamu ada di list ya!', id)
-            })
-            break
-        case 'daerah':
-            const daerahq = await rugaapi.daerah()
-            await client.reply(from, daerahq, id)
+        case 'neko':
+            const nekop = await rugaapi.nekoslife()
+            await client.sendImage(from, `${nekop}`, '', 'ฅ(≈>ܫ<≈)♥', id)
             .catch(() => {
                 client.reply(from, 'Há um erro!', id)
             })
-            break
-            */
-           
+        break
+        
+        case 'gato':
+        case 'gatinho':
+        case 'cat':
+            const gator = await rugaapi.randcat()
+            await client.sendImage(from, `${gator}`, '', 'ฅ(≈>ܫ<≈)♥', id)
+            .catch(() => {
+                client.reply(from, 'Há um erro!', id)
+            })
+        break
+
         //Media
         case 'ytmp3':
             if (args.length == 0) return client.reply(from, `Para baixar músicas do youtube\nUso: ${prefix}ytmp3 [link_yt]`, id)
@@ -536,7 +405,8 @@ module.exports = HandleMsg = async (client, message) => {
 					client.reply(from, `URL INI ${args[0]} JÁ BAIXOU ANTERIORMENTE .. O URL IRÁ RESETAR APÓS 60 MINUTOS`, id)
 				})
 			})
-            break
+        break
+
 		case 'fb':
 		case 'facebook':
 			if (args.length == 0) return client.reply(from, `Para baixar vídeos do facebook\nUso: ${prefix}fb [link_fb]`, id)
@@ -552,91 +422,10 @@ module.exports = HandleMsg = async (client, message) => {
 					})
 				})
 			})
-			break
-        //Primbon Menu
-        /*
-		case 'artinama':
-			if (args.length == 0) return client.reply(from, `Para descobrir o significado do nome de alguém\nUse ${prefix}artinama namakamu`, id)
-            rugaapi.artinama(body.slice(10))
-			.then(async(res) => {
-				await client.reply(from, `Arti : ${res}`, id)
-			})
-			break
-		case 'cekjodoh':
-			if (args.length !== 2) return client.reply(from, `Untuk mengecek jodoh melalui nama\nUso: ${prefix}cekjodoh nama-kamu nama-pasangan\n\nexemplo: ${prefix}cekjodoh bagas siti\n\nhanya bisa pakai nama panggilan (satu kata)`)
-			rugaapi.cekjodoh(args[0],args[1])
-			.then(async(res) => {
-				await client.sendFileFromUrl(from, `${res.link}`, '', `${res.text}`, id)
-			})
-			break
-            */
+            break
             
-        // Random Kata
-        /*
-        case 'fakta':
-            fetch('https://raw.githubusercontent.com/clientZ/grabbed-results/main/random/faktaunix.txt')
-            .then(res => res.text())
-            .then(body => {
-                let splitnix = body.split('\n')
-                let randomnix = splitnix[Math.floor(Math.random() * splitnix.length)]
-                client.reply(from, randomnix, id)
-            })
-            .catch(() => {
-                client.reply(from, 'Há um erro!', id)
-            })
-            break
-        case 'katabijak':
-            fetch('https://raw.githubusercontent.com/clientZ/grabbed-results/main/random/katabijax.txt')
-            .then(res => res.text())
-            .then(body => {
-                let splitbijak = body.split('\n')
-                let randombijak = splitbijak[Math.floor(Math.random() * splitbijak.length)]
-                client.reply(from, randombijak, id)
-            })
-            .catch(() => {
-                client.reply(from, 'Há um erro!', id)
-            })
-            break
-        case 'pantun':
-            fetch('https://raw.githubusercontent.com/clientZ/grabbed-results/main/random/pantun.txt')
-            .then(res => res.text())
-            .then(body => {
-                let splitpantun = body.split('\n')
-                let randompantun = splitpantun[Math.floor(Math.random() * splitpantun.length)]
-                client.reply(from, randompantun.replace(/client-line/g,"\n"), id)
-            })
-            .catch(() => {
-                client.reply(from, 'Há um erro!', id)
-            })
-            break
-        case 'quote':
-            const quotex = await rugaapi.quote()
-            await client.reply(from, quotex, id)
-            .catch(() => {
-                client.reply(from, 'Há um erro!', id)
-            })
-            break
-		case 'cerpen':
-			rugaapi.cerpen()
-			.then(async (res) => {
-				await client.reply(from, res.result, id)
-			})
-			break
-		case 'cersex':
-			rugaapi.cersex()
-			.then(async (res) => {
-				await client.reply(from, res.result, id)
-			})
-			break
-		case 'puisi':
-			rugaapi.puisi()
-			.then(async (res) => {
-				await client.reply(from, res.result, id)
-			})
-            break
-            */
-
         //Random Images
+        /*
         case 'anime':
             if (args.length == 0) return client.reply(from, `Usar ${prefix}anime\nPor favor use: ${prefix}anime [pesquisa]\nexemplo: ${prefix}anime random\n\nconsultas disponíveis:\nrandom, waifu, husbu, neko`, id)
             if (args[0] == 'random' || args[0] == 'waifu' || args[0] == 'husbu' || args[0] == 'neko') {
@@ -680,10 +469,11 @@ module.exports = HandleMsg = async (client, message) => {
                 client.reply(from, 'Há um erro!', id)
             })
             break
+            */
         
         // Search Any
-        case 'images':
-            if (args.length == 0) return client.reply(from, `Para pesquisar imagens no pinterest\nUso: ${prefix}images [pesquisa]\nexemplo: ${prefix}images naruto`, id)
+        case 'imagens':
+            if (args.length == 0) return client.reply(from, `Para pesquisar imagens no pinterest\nUso: ${prefix}imagens [pesquisa]\nexemplo: ${prefix}imagens naruto`, id)
             const cariwall = body.slice(8)
             const hasilwall = await images.fdci(cariwall)
             await client.sendFileFromUrl(from, hasilwall, '', '', id)
@@ -713,6 +503,8 @@ module.exports = HandleMsg = async (client, message) => {
             })
         break
 */
+
+/*
         case 'nekopoi':
              rugapoi.getLatest()
             .then((result) => {
@@ -729,9 +521,10 @@ module.exports = HandleMsg = async (client, message) => {
                 client.reply(from, 'Há um erro!', id)
             })
         break
-
+*/
+        case 'insta':
         case 'stalkig':
-            if (args.length == 0) return client.reply(from, `Para stalkear a conta de alguém no Instagram\nuse ${prefix}stalkig [nome do usuário]\nexemplo: ${prefix}stalkig marii_potiens`, id)
+            if (args.length == 0) return client.reply(from, `Para stalkear a conta de alguém no Instagram\nuse ${prefix}insta [nome do usuário]`, id)
             const igstalk = await rugaapi.stalkig(args[0])
             const igstalkpict = await rugaapi.stalkigpict(args[0])
             await client.sendFileFromUrl(from, igstalkpict, '', igstalk, id)
@@ -741,7 +534,7 @@ module.exports = HandleMsg = async (client, message) => {
         break
 
         case 'wiki':
-            if (args.length == 0) return client.reply(from, `Para encontrar uma palavra da wikipedia\nUse: ${prefix}wiki [kata]`, id)
+            if (args.length == 0) return client.reply(from, `Para encontrar uma palavra da wikipedia\nUse: ${prefix}wiki [Palavra]`, id)
             const wikip = body.slice(6)
             const wikis = await rugaapi.wiki(wikip)
             await client.reply(from, wikis, id)
@@ -752,7 +545,7 @@ module.exports = HandleMsg = async (client, message) => {
 
         case 'tempo':
         case 'clima':
-            if (args.length == 0) return client.reply(from, `Para ver o clima em uma área\nUse: ${prefix}cuaca [área]`, id)
+            if (args.length == 0) return client.reply(from, `Para ver o clima em uma área\nUse: ${prefix}clima [área]`, id)
             const cuacaq = body.slice(7)
             const cuacap = await rugaapi.cuaca(cuacaq)
             await client.reply(from, cuacap, id)
@@ -761,6 +554,7 @@ module.exports = HandleMsg = async (client, message) => {
             })
         break
 
+        /*
         case 'lyrics':
         case 'letra':
             if (args.length == 0) return client.reply(from, `Para pesquisar a letra de uma música\bUse: ${prefix}letra [título da música]`, id)
@@ -791,6 +585,9 @@ module.exports = HandleMsg = async (client, message) => {
             })
         break
 
+        */
+
+        /*
         case 'play'://silahkan kalian custom sendiri jika ada yang ingin diubah
             if (args.length == 0) return client.reply(from, `Para procurar músicas do youtube\n\nUsar:: ${prefix}play [título da música]`, id)
             axios.get(`https://clientytdl.herokuapp.com/search?q=${body.slice(6)}`)
@@ -810,6 +607,7 @@ module.exports = HandleMsg = async (client, message) => {
                 client.reply(from, 'Há um erro!', id)
             })
         break
+        
 
 		case 'movie':
 			if (args.length == 0) return client.reply(from, `Para pesquisar um filme no site sdmovie.fun\nUso: ${prefix}movie [o título]`, id)
@@ -819,7 +617,8 @@ module.exports = HandleMsg = async (client, message) => {
 				await client.sendFileFromUrl(from, res.link, 'movie.jpg', res.hasil, id)
 			})
         break
-        
+        */
+
         case 'qualanime':
         case 'whatanime':
             if (isMedia && type === 'image' || quotedMsg && quotedMsg.type === 'image') {
@@ -895,15 +694,56 @@ module.exports = HandleMsg = async (client, message) => {
                     client.reply(from, err, id)
                 }
             break
-                
+
+        case 'yamete':
+            try {
+                client.sendPtt(from, './media/yamete.mp3', id)
+                } catch (err) {
+                    client.reply(from, err, id)
+                }
+        break
+        
+        case 'banido':
+            try {
+                client.sendPtt(from, './media/banido.mp3', id)
+                } catch (err) {
+                    client.reply(from, err, id)
+                }
+        break
+
+        case 'hamerti':
+            try {
+                client.sendPtt(from, './media/hamerti.mp3', id)
+                } catch (err) {
+                    client.reply(from, err, id)
+                }
+        break
+
+        case 'ojostristes':
+            try {
+                client.sendPtt(from, './media/ojostristes.mp3', id)
+                } catch (err) {
+                    client.reply(from, err, id)
+                }
+        break
+
+        case '69':
+            try {
+                client.sendPtt(from, './media/69.mp3', id)
+                } catch (err) {
+                    client.reply(from, err, id)
+                }
+        break
+        /*
         case 'translate':
             if (args.length != 1) return client.reply(from, `Desculpe, o formato da mensagem está errado.\nResponda a uma mensagem com uma legenda ${prefix}translate <código de linguagem>\ncontoh ${prefix}translate id`, id)
             if (!quotedMsg) return client.reply(from, `Desculpe, o formato da mensagem está errado.\nResponda a uma mensagem com uma legenda ${prefix}translate <código de linguagem>\ncontoh ${prefix}translate id`, id)
             const quoteText = quotedMsg.type == 'chat' ? quotedMsg.body : quotedMsg.type == 'image' ? quotedMsg.caption : ''
             translate(quoteText, args[0])
                 .then((result) => client.sendText(from, result))
-                .catch(() => client.sendText(from, 'Error, Kode bahasa salah.'))
+                .catch(() => client.sendText(from, 'Erro, código de idioma errado.'))
         break
+        */
 
         /*
 		case 'covidindo':
@@ -936,7 +776,7 @@ module.exports = HandleMsg = async (client, message) => {
             if (args.length == 0) return client.reply(from, `Use: ${prefix}encurtarlink <url>`, id)
             if (!isUrl(args[0])) return client.reply(from, 'Desculpe, o url que você enviou é inválido.', id)
             const shortlink = await urlShortener(args[0])
-            await client.sendText(from, shortlink)
+            await client.sendText(from, shortlink, id)
             .catch(() => {
                 client.reply(from, 'Há um erro!', id)
             })
