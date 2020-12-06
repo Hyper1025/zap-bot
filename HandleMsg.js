@@ -139,17 +139,18 @@ module.exports = HandleMsg = async (client, message) => {
             await client.sendText(from, `Pong!!!!\nTempo de resposta: ${processTime(t, moment())} _Second_`)
             break
 
+        
         /*
         case 'tnc':
             await client.sendText(from, menuId.textTnC())
             break
+            */
         case 'notes':
         case 'menu':
         case 'help':
             await client.sendText(from, menuId.textMenu(pushname))
             .then(() => ((isGroupMsg) && (isGroupAdmins)) ? client.sendText(from, `Menu Admin Grup: *${prefix}menuadmin*`) : null)
             break
-        */
 
         case 'menuadmin':
             if (!isGroupMsg) return client.reply(from, 'Desculpe, este comando só pode ser usado dentro de grupos!', id)
